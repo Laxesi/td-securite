@@ -1,3 +1,6 @@
+# Dutertre Alexis
+Etudiant disposant d'un 1/3 temps
+
 # Banque : sécuriser une appli de virement
 
 Une micro-appli de virement : API **Spring Boot 4** (Java 25) et front **Angular**.
@@ -66,11 +69,13 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 
 ## Partie 1 : Basic Auth sur Spring
 
-1. Ajoutez `org.springframework.boot:spring-boot-starter-security`. Relancez : que renvoie maintenant l'API ?
+1. Ajoutez `org.springframework.boot:spring-boot-starter-security`. Relancez : que renvoie maintenant l'API ?\
+    * Il renvoie le code erreur 401 : Unauthorized
 2. Déclarez le bean `PasswordEncoder` (BCrypt) : c'est lui qui comparera le mot de passe reçu au hash en base.
 3. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login.
 4. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées.
 5. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ?
+    * la requette renvoie 200 avec `"login": "alice"` et `"roles" : [CLIENT]`. Dans l'entete de la requette, on observe `Authorization: Basic YWxpY2U6YWxpY2UxMjM=`, `YWxpY2U6YWxpY2UxMjM=` est tout simplement `alice:alice123` encodée en base 64. Les identifiants sont dons simplement encodée, ce n'est donc pas du chifrement.
 6. Remplacez `UtilisateurCourantFake` par un `UtilisateurCourant` qui lit le `SecurityContext`.
 7. Le front reçoit une erreur CORS : le navigateur envoie un `OPTIONS` **sans** identifiants. Autorisez-le dans la chaîne (`.cors(...)`).
 
