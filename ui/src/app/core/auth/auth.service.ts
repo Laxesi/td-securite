@@ -32,7 +32,9 @@ export class AuthService {
   }
 
   deconnecter(): void {
-    // TODO : oublier les identifiants et l'utilisateur.
+    this.login = undefined;
+    this.password = undefined;
+    this.isNotConnected()
   }
 
   basic(): string | undefined {
